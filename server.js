@@ -78,7 +78,7 @@ app.route('/')
 			}
 
 			//RENAME THE MAIN PLUGIN DIRECTORY
-			fs.renameSync( destination + '/plugin-name', destination + '/' + pluginSlug);
+			fs.renameSync( destination + '/plugin-name', destination + '/' + pluginName.toLowerCase().replace(/ /gi, '_'));
 
 			//FIND AND REPLACE FILES NAMES
 			walker(destination + '/' + pluginSlug, function(err, files) {
@@ -184,6 +184,21 @@ app.route('/')
 					regex: "Plugin_Name",
 
 					replacement: pluginNamePackage,
+
+					paths:[destination + '/' + pluginSlug],
+
+					recursive: true,
+
+					silent: true
+
+				});
+
+				//find PLUGIN_NAME
+				replace({
+
+					regex: "PLUGIN_NAME",
+
+					replacement: pluginSlug.toUpperCase(),
 
 					paths:[destination + '/' + pluginSlug],
 
