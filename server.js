@@ -76,12 +76,13 @@ app.route('/')
 				return;
 
 			}
+			var plugin_directory = pluginName.toLowerCase().replace(/ /gi, '-');
 
 			//RENAME THE MAIN PLUGIN DIRECTORY
-			fs.renameSync( destination + '/plugin-name', destination + '/' + pluginName.toLowerCase().replace(/ /gi, '_'));
+			fs.renameSync( destination + '/plugin-name', destination + '/' + plugin_directory);
 
 			//FIND AND REPLACE FILES NAMES
-			walker(destination + '/' + pluginSlug, function(err, files) {
+			walker(destination + '/' + plugin_directory, function(err, files) {
 
 				if (err){
 
@@ -110,7 +111,7 @@ app.route('/')
 
 					replacement: pluginURI,
 
-					paths:[destination + '/' + pluginSlug + '/' + pluginSlug +'.php'],
+					paths:[destination + '/' + plugin_directory + '/' + pluginSlug +'.php'],
 
 					recursive: false,
 
@@ -125,7 +126,7 @@ app.route('/')
 
 					replacement: pluginName,
 
-					paths:[destination + '/' + pluginSlug + '/' + pluginSlug +'.php'],
+					paths:[destination + '/' + plugin_directory + '/' + pluginSlug +'.php'],
 
 					recursive: true,
 
@@ -140,7 +141,7 @@ app.route('/')
 
 					replacement: pluginURI,
 
-					paths:[destination + '/' + pluginSlug + '/' + pluginSlug +'.php'],
+					paths:[destination + '/' + plugin_directory + '/' + pluginSlug +'.php'],
 
 					recursive: true,
 
@@ -155,7 +156,7 @@ app.route('/')
 
 					replacement: pluginAuthor,
 
-					paths:[destination + '/' + pluginSlug + '/' + pluginSlug +'.php'],
+					paths:[destination + '/' + plugin_directory + '/' + pluginSlug +'.php'],
 
 					recursive: true,
 
@@ -170,7 +171,7 @@ app.route('/')
 
 					replacement: pluginAuthorFull,
 
-					paths:[destination + '/' + pluginSlug],
+					paths:[destination + '/' + plugin_directory],
 
 					recursive: true,
 
@@ -185,7 +186,7 @@ app.route('/')
 
 					replacement: pluginNamePackage,
 
-					paths:[destination + '/' + pluginSlug],
+					paths:[destination + '/' + plugin_directory],
 
 					recursive: true,
 
@@ -200,7 +201,7 @@ app.route('/')
 
 					replacement: pluginSlug.toUpperCase(),
 
-					paths:[destination + '/' + pluginSlug],
+					paths:[destination + '/' + plugin_directory],
 
 					recursive: true,
 
@@ -215,7 +216,7 @@ app.route('/')
 
 					replacement: pluginSlug,
 
-					paths:[destination + '/' + pluginSlug],
+					paths:[destination + '/' + plugin_directory],
 
 					recursive: true,
 
@@ -230,7 +231,7 @@ app.route('/')
 
 					replacement: pluginAuthorURI,
 
-					paths:[destination + '/' + pluginSlug],
+					paths:[destination + '/' + plugin_directory],
 
 					recursive: true,
 
@@ -245,7 +246,7 @@ app.route('/')
 
 					replacement: pluginNameInstance,
 
-					paths:[destination + '/' + pluginSlug + '/' + pluginSlug +'.php'],
+					paths:[destination + '/' + plugin_directory + '/' + pluginSlug +'.php'],
 
 					recursive: true,
 
@@ -257,9 +258,9 @@ app.route('/')
 
 				var zip = new EasyZip();
 
-				zip.zipFolder(destination + '/' + pluginSlug, function(){
+				zip.zipFolder(destination + '/' + plugin_directory, function(){
 
-					zip.writeToResponse(res, pluginSlug);
+					zip.writeToResponse(res, plugin_directory);
 
 				});
 			});
